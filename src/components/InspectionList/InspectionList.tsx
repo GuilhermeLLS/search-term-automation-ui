@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { useValidationStore } from "../../store/store";
+import { useWords } from "../../contexts/WordsContext/WordsContext";
 
 export default function InspectionList() {
-  const words = useValidationStore((state) => state.words);
+  const { words } = useWords();
+
   return (
     <ul>
       {words.map(({ value, id }) => (

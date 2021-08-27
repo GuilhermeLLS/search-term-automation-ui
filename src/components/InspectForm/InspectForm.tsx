@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { useValidationStore } from "../../store/store";
+import { useWords } from "../../contexts/WordsContext/WordsContext";
 
 type FormInput = {
   inspectWord: string;
@@ -12,24 +11,27 @@ const requestValidationId = async (word: string): Promise<{ id: string }> => {
     method: "POST",
     body: JSON.stringify({ keyword: word }),
   });
-  console.log(res);
   return res.json();
 };
 
 export default function InspectForm() {
   const {
+    reset,
+    setError,
     register,
     handleSubmit,
-    formState: { errors },
-    reset,
+    formState: { errors, isSubmitting },
   } = useForm<FormInput>();
-  const { createWord } = useValidationStore();
-  const mutation = useMutation(requestValidationId);
+  const { createWord } = useWords();
 
   const onSubmit = async (data: FormInput) => {
-    const { id } = await mutation.mutateAsync(data.inspectWord);
-    createWord({ id, value: data.inspectWord });
-    reset();
+    const { id } = await requestValidationId(data.inspectWord);
+    try {
+      createWord({ id, value: data.inspectWord });
+      reset();
+    } catch (error) {
+      setError("inspectWord", { message: error, type: "value" });
+    }
   };
 
   return (
@@ -47,7 +49,10 @@ export default function InspectForm() {
       {errors?.inspectWord?.type === "minLength" ? (
         <span role="alert">Tamanho minimo de 4 caracteres*</span>
       ) : null}
-      <input type="submit" value={mutation.isLoading ? "Carregando" : "Enviar"} />
+      {errors?.inspectWord?.type === "value" ? (
+        <span role="alert">Palavra já existe na lista!</span>
+      ) : null}
+      <input type="submit" value={isSubmitting ? "Carregando" : "Enviar"} />
     </form>
   );
 }
