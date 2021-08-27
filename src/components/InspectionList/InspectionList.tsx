@@ -1,13 +1,14 @@
 import * as React from "react";
-import { useValidationStore } from "../../store/teste";
+import { Link } from "react-router-dom";
+import { useValidationStore } from "../../store/store";
 
 export default function InspectionList() {
   const words = useValidationStore((state) => state.words);
   return (
     <ul>
-      {Object.entries(words).map(([word, isValid]) => (
-        <li key={word} style={{ color: !isValid ? "firebrick" : "green" }}>
-          {word}
+      {words.map(({ value, id }) => (
+        <li key={id}>
+          <Link to={`/details/${id}`}>{value}</Link>
         </li>
       ))}
     </ul>
