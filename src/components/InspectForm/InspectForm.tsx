@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { useWords } from "../../contexts/WordsContext/WordsContext";
+import { useWords } from "../../hooks/useWords/useWords";
 
 type FormInput = {
   inspectWord: string;
 };
 
 const requestValidationId = async (word: string): Promise<{ id: string }> => {
-  const res = await fetch("http://testapp.axreng.com:4567/crawl", {
+  const res = await fetch(process.env.REACT_APP_CRAWL_API_ENDPOINT_DEV as string, {
     method: "POST",
     body: JSON.stringify({ keyword: word }),
   });

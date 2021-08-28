@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { useWords } from "../../contexts/WordsContext/WordsContext";
+import { useWords } from "../../hooks/useWords/useWords";
 
 export default function InspectionList() {
   const { words } = useWords();

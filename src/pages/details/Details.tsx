@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
+import useStaleRefresh from "../../hooks/useStaleRefresh/useStaleRefresh";
 
 export interface QueryResponse {
   id: string;
@@ -7,26 +8,27 @@ export interface QueryResponse {
   status: "done" | "active";
 }
 
-const apiFetch = async (url: string): Promise<QueryResponse> => {
-  const res = await fetch(url);
-  return await res.json();
-};
-
 export default function Details() {
   const {
     params: { id },
   } = useRouteMatch<{ id: string }>();
-  const data = useStaleRefresh(`http://testapp.axreng.com:4567/crawl/${id}`);
+  const { data, loading } = useStaleRefresh(
+    `${process.env.REACT_APP_CRAWL_API_ENDPOINT_DEV as string}/${id}`
+  );
 
   return (
     <div>
       <Link to="/request-search">{"Back <"}</Link>
       <h3>{data?.status}</h3>
-      <ul>
-        {data?.urls.map((url: string) => (
-          <li key={url}>{url}</li>
-        ))}
-      </ul>
+      {!loading ? (
+        <ul>
+          {data?.urls.map((url: string) => (
+            <li key={url}>{url}</li>
+          ))}
+        </ul>
+      ) : (
+        <span>loading....</span>
+      )}
     </div>
   );
 }

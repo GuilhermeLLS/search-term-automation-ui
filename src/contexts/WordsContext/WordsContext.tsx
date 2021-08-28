@@ -12,7 +12,7 @@ type WordValidationState = {
 
 const WORDS_INITIAL_STATE: Word[] = [];
 
-const WordsContext = React.createContext<WordValidationState>({
+export const WordsContext = React.createContext<WordValidationState>({
   words: WORDS_INITIAL_STATE,
   createWord: () => {},
 });
@@ -29,12 +29,4 @@ export function WordsContextProvider({ children }: { children: React.ReactNode }
   };
 
   return <WordsContext.Provider value={{ words, createWord }}>{children}</WordsContext.Provider>;
-}
-
-export function useWords() {
-  const { words, createWord } = React.useContext(WordsContext);
-  if (!words || !createWord) {
-    throw new Error("Error on useWords custom hook!");
-  }
-  return { words, createWord };
 }
