@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useWords } from "../../hooks/useWords/useWords";
+import { Form, Group, Input, Label, SubmitInput } from "./styles";
 
 type FormInput = {
   inspectWord: string;
@@ -35,14 +36,16 @@ export default function InspectForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="inspectWord">Palavra de inspecao</label>
-      <input
-        id="inspectWord"
-        type="text"
-        placeholder="word here..."
-        {...register("inspectWord", { required: true, minLength: 4 })}
-      />
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Group>
+        <Label htmlFor="inspectWord">Palavra de Inspeção*</Label>
+        <Input
+          type="text"
+          id="inspectWord"
+          placeholder="Digite sua palavra"
+          {...register("inspectWord", { required: true, minLength: 4 })}
+        />
+      </Group>
       {errors?.inspectWord?.type === "required" ? (
         <span role="alert">Campo Obrigatório*</span>
       ) : null}
@@ -52,7 +55,7 @@ export default function InspectForm() {
       {errors?.inspectWord?.type === "value" ? (
         <span role="alert">Palavra já existe na lista!</span>
       ) : null}
-      <input type="submit" value={isSubmitting ? "Carregando" : "Enviar"} />
-    </form>
+      <SubmitInput type="submit" value={isSubmitting ? "Carregando" : "Procurar"} />
+    </Form>
   );
 }

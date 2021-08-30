@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
+import Header from "../../components/Header/Header";
 import useStaleRefresh from "../../hooks/useStaleRefresh/useStaleRefresh";
 
 export interface QueryResponse {
@@ -17,18 +18,21 @@ export default function Details() {
   );
 
   return (
-    <div>
-      <Link to="/request-search">{"Back <"}</Link>
-      <h3>{data?.status}</h3>
-      {!loading ? (
-        <ul>
-          {data?.urls.map((url: string) => (
-            <li key={url}>{url}</li>
-          ))}
-        </ul>
-      ) : (
-        <span>loading....</span>
-      )}
-    </div>
+    <React.Fragment>
+      <Header />
+      <div>
+        <Link to="/request-search">{"Back <"}</Link>
+        <h3>{data?.status}</h3>
+        {!loading ? (
+          <ul>
+            {data?.urls.map((url: string) => (
+              <li key={url}>{url}</li>
+            ))}
+          </ul>
+        ) : (
+          <span>loading....</span>
+        )}
+      </div>
+    </React.Fragment>
   );
 }
