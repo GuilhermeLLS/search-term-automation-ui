@@ -1,5 +1,10 @@
 import * as React from "react";
-import type { QueryResponse } from "../../pages/details/Details";
+
+type QueryResponse = {
+  id: string;
+  urls: string[];
+  status: "done" | "active";
+};
 
 const CACHE: Record<string, Record<string, QueryResponse>> = {};
 

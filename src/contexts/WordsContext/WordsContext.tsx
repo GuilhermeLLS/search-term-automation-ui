@@ -1,6 +1,6 @@
 import * as React from "react";
 
-type Word = {
+export type Word = {
   id: string;
   value: string;
 };
@@ -17,8 +17,14 @@ export const WordsContext = React.createContext<WordValidationState>({
   createWord: () => {},
 });
 
-export function WordsContextProvider({ children }: { children: React.ReactNode }) {
-  const [words, setWords] = React.useState<Word[]>(WORDS_INITIAL_STATE);
+export function WordsContextProvider({
+  children,
+  initialState = WORDS_INITIAL_STATE,
+}: {
+  children: React.ReactNode;
+  initialState?: Word[];
+}) {
+  const [words, setWords] = React.useState<Word[]>(initialState);
 
   const createWord = (word: Word) => {
     if (words.find(({ value }) => value === word.value)) {

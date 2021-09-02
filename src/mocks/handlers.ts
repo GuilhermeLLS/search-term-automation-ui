@@ -1,17 +1,10 @@
 import { rest, RestRequest, RestContext, ResponseComposition } from "msw";
 
-const INITIAL_URLS = [
+const URLS = [
   "http://testing.com/a",
   "http://testing.com/b",
   "http://testing.com/c",
   "http://testing.com/d",
-];
-
-const DONE_URLS = [
-  "http://testing.com/e",
-  "http://testing.com/f",
-  "http://testing.com/g",
-  "http://testing.com/h",
 ];
 
 export const handlers = [
@@ -24,7 +17,7 @@ export const handlers = [
     return res(
       ctx.delay(1200),
       ctx.status(200),
-      ctx.json({ id: req.params.id, status: "active", urls: INITIAL_URLS })
+      ctx.json({ id: req.params.id, status: "active", urls: URLS })
     );
   }),
 ];
