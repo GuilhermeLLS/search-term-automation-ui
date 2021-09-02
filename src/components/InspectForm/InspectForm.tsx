@@ -8,7 +8,7 @@ type FormInput = {
 };
 
 const requestValidationId = async (word: string): Promise<{ id: string }> => {
-  const res = await fetch(process.env.REACT_APP_CRAWL_API_ENDPOINT as string, {
+  const res = await fetch(`${process.env.REACT_APP_CRAWL_API_ENDPOINT as string}/crawl`, {
     method: "POST",
     body: JSON.stringify({ keyword: word }),
   });

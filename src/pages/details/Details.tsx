@@ -5,18 +5,12 @@ import Header from "../../components/Header/Header";
 import useStaleRefresh from "../../hooks/useStaleRefresh/useStaleRefresh";
 import { PageHero, SectionWrapper } from "../../components/Commons/Commons";
 
-export type QueryResponse = {
-  id: string;
-  urls: string[];
-  status: "done" | "active";
-};
-
 export default function Details() {
   const {
     params: { id, word },
   } = useRouteMatch<{ word: string; id: string }>();
   const { data, loading } = useStaleRefresh(
-    `${process.env.REACT_APP_CRAWL_API_ENDPOINT as string}/${id}`
+    `${process.env.REACT_APP_CRAWL_API_ENDPOINT as string}/crawl/${id}`
   );
 
   return (
